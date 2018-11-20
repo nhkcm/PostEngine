@@ -1,0 +1,12 @@
+C:\Users\atlas\source\repos\PostEngine\PostEngine.Data\bin\Debug\PostEngine.Data.dll.config
+C:\Users\atlas\source\repos\PostEngine\PostEngine.Data\bin\Debug\PostEngine.Data.dll
+C:\Users\atlas\source\repos\PostEngine\PostEngine.Data\bin\Debug\PostEngine.Data.pdb
+C:\Users\atlas\source\repos\PostEngine\PostEngine.Data\bin\Debug\EntityFramework.dll
+C:\Users\atlas\source\repos\PostEngine\PostEngine.Data\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\atlas\source\repos\PostEngine\PostEngine.Data\bin\Debug\EntityFramework.xml
+C:\Users\atlas\source\repos\PostEngine\PostEngine.Data\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\atlas\source\repos\PostEngine\PostEngine.Data\obj\Debug\PostEngine.Data.csprojAssemblyReference.cache
+C:\Users\atlas\source\repos\PostEngine\PostEngine.Data\obj\Debug\PostEngine.Data.csproj.CoreCompileInputs.cache
+C:\Users\atlas\source\repos\PostEngine\PostEngine.Data\obj\Debug\PostEngine.Data.csproj.CopyComplete
+C:\Users\atlas\source\repos\PostEngine\PostEngine.Data\obj\Debug\PostEngine.Data.dll
+C:\Users\atlas\source\repos\PostEngine\PostEngine.Data\obj\Debug\PostEngine.Data.pdb
