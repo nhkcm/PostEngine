@@ -1,5 +1,6 @@
 C:\Users\atlas\source\repos\PostEngine\PostEngine.Model\bin\Debug\PostEngine.Model.dll
 C:\Users\atlas\source\repos\PostEngine\PostEngine.Model\bin\Debug\PostEngine.Model.pdb
+C:\Users\atlas\source\repos\PostEngine\PostEngine.Model\obj\Debug\PostEngine.Model.csprojAssemblyReference.cache
 C:\Users\atlas\source\repos\PostEngine\PostEngine.Model\obj\Debug\PostEngine.Model.csproj.CoreCompileInputs.cache
 C:\Users\atlas\source\repos\PostEngine\PostEngine.Model\obj\Debug\PostEngine.Model.dll
 C:\Users\atlas\source\repos\PostEngine\PostEngine.Model\obj\Debug\PostEngine.Model.pdb

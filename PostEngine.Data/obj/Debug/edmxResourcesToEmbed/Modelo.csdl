@@ -10,6 +10,7 @@
     <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="post_id" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Post" Relationship="Self.FK_Comments_Post" FromRole="Comments" ToRole="Post" />
+    <Property Name="text" Type="String" Nullable="false" MaxLength="156" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="Post">
     <Key>

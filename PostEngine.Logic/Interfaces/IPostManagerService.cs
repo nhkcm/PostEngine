@@ -1,5 +1,6 @@
 ﻿using PostEngine.Data;
 using PostEngine.Logic.Utilities;
+using PostEngine.Model.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +15,12 @@ namespace PostEngine.Logic.Interfaces
         Response<string> EditPost(Post post);
         Response<string> DeletePost(Post post);
         Response<string> AprovalPost(Post post);
-        Response<List<Post>> GetPendingForAprovalPost();
-        Response<List<Post>> GetResumePost();
-        Response<Post> GetPost(int id);
+        Response<List<PostDTO>> GetPendingForAprovalPost();
+        Response<List<PostDTO>> GetResumePost(int id);
+        Response<List<PostDTO>> GetResumePostEditor();
+        Response<List<PostDTO>> GetPublicPost();
+        Response<PostDTO> GetPost(int id);
+        Response<string> SaveComment(Comments comments);
+
     }
 }

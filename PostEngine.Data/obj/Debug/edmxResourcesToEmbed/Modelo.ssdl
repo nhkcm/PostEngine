@@ -9,6 +9,7 @@
     <Property Name="author_name" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="email" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="post_id" Type="int" Nullable="false" />
+    <Property Name="text" Type="varchar" MaxLength="156" Nullable="false" />
   </EntityType>
   <EntityType Name="Post">
     <Key>

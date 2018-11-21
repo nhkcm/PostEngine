@@ -1,6 +1,8 @@
-﻿using PostEngine.Data;
+﻿using AutoMapper;
+using PostEngine.Data;
 using PostEngine.Logic.Interfaces;
 using PostEngine.Logic.Utilities;
+using PostEngine.Model.DTO;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -12,6 +14,7 @@ namespace PostEngine.Logic.Services
 {
     public class PostManagerService : IPostManagerService
     {
+        IMapper mapper;
         /// <summary>
         /// context to data access
         /// </summary>
@@ -22,6 +25,7 @@ namespace PostEngine.Logic.Services
         public PostManagerService()
         {
             ctx = new DBPostEngineEntities();
+            mapper = MapperWrapped.Instance.mc.CreateMapper();
         }
         /// <summary>
         /// this method change state to Aproval or disaproval
@@ -133,16 +137,18 @@ namespace PostEngine.Logic.Services
         /// this method get all pending post for aproval
         /// </summary>
         /// <returns>Response in ok or error with message error</returns>
-        public Response<List<Post>> GetPendingForAprovalPost()
+        public Response<List<PostDTO>> GetPendingForAprovalPost()
         {
             try
             {
-                var dataPost = ctx.Post.Where(w => w.state == (byte)PostStates.PENDING).ToList();
-                return ResponseFactory.OK(dataPost);
+                var dataPost = ctx.Post
+                    .Where(w => w.state == (byte)PostStates.PENDING)                    
+                    .ToList();
+                return ResponseFactory.OK(mapper.Map<List<PostDTO>>(dataPost));
             }
             catch (Exception ex)
             {
-                return ResponseFactory.ERROR(new List<Post>(),ex.Message);
+                return ResponseFactory.ERROR(new List<PostDTO>(),ex.Message);
             }
         }
         /// <summary>
@@ -150,32 +156,97 @@ namespace PostEngine.Logic.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Response in ok or error with message error</returns>
-        public Response<Post> GetPost(int id)
+        public Response<PostDTO> GetPost(int id)
         {
             try
             {
-                var dataPost = ctx.Post.Find(id);
-                return ResponseFactory.OK(dataPost);
+                var dataPost = ctx.Post
+                    .Find(id);
+                return ResponseFactory.OK(mapper.Map<PostDTO>(dataPost));
             }
             catch (Exception ex)
             {
-                return ResponseFactory.ERROR(new Post(), ex.Message);
+                return ResponseFactory.ERROR(new PostDTO(), ex.Message);
+            }
+        }
+        /// <summary>
+        /// this method get public post
+        /// </summary>
+        /// <returns></returns>
+        public Response<List<PostDTO>> GetPublicPost()
+        {
+            try
+            {
+                var dataPost = ctx.Post
+                    .Include("User")
+                    .Where(w => w.is_public == 1 && w.state == (byte)PostStates.APPROVED)
+                    .ToList();
+                return ResponseFactory.OK(mapper.Map<List<PostDTO>>(dataPost));
+            }
+            catch (Exception ex)
+            {
+                return ResponseFactory.ERROR(new List<PostDTO>(), ex.Message);
             }
         }
         /// <summary>
         /// this method get all posts
         /// </summary>
         /// <returns>Response in ok or error with message error</returns>
-        public Response<List<Post>> GetResumePost()
+        public Response<List<PostDTO>> GetResumePost(int id)
         {
             try
             {
-                var dataPost = ctx.Post.Include("User").ToList();
-                return ResponseFactory.OK(dataPost);
+                var dataPost = ctx.Post               
+                    .Include("User")
+                    .Where(w => w.user_id == id || w.state == (byte)PostStates.APPROVED)
+                    .ToList();
+                return ResponseFactory.OK(mapper.Map<List<PostDTO>>(dataPost));
             }
             catch (Exception ex)
             {
-                return ResponseFactory.ERROR(new List<Post>(), ex.Message);
+                return ResponseFactory.ERROR(new List<PostDTO>(), ex.Message);
+            }
+        }
+        /// <summary>
+        /// this method get all posts
+        /// </summary>
+        /// <returns>Response in ok or error with message error</returns>
+        public Response<List<PostDTO>> GetResumePostEditor()
+        {
+            try
+            {
+                var dataPost = ctx.Post
+                    .Include("User")
+                    .ToList();
+                return ResponseFactory.OK(mapper.Map<List<PostDTO>>(dataPost));
+            }
+            catch (Exception ex)
+            {
+                return ResponseFactory.ERROR(new List<PostDTO>(), ex.Message);
+            }
+        }
+        /// <summary>
+        /// this method add comment to post
+        /// </summary>
+        /// <param name="comments"></param>
+        /// <returns></returns>
+        public Response<string> SaveComment(Comments comments)
+        {
+            try
+            {
+                comments.id = -1;
+                comments.created = DateTime.Now;
+                ctx.Comments.Add(comments);
+                var changes = ctx.SaveChanges();
+                if (changes == 1)
+                    return ResponseFactory.OK("Comment created");
+                else
+                    return ResponseFactory.OK("Comment has not created");
+
+            }
+            catch (Exception ex)
+            {
+                return ResponseFactory.ERROR(ex.Message);
             }
         }
     }

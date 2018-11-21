@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiObjects\LoginObj.cs" />
     <Compile Include="DTO\CommentsDTO.cs" />
     <Compile Include="DTO\PostDTO.cs" />
     <Compile Include="DTO\UserDTO.cs" />

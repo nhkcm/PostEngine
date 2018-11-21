@@ -18,7 +18,6 @@ namespace PostEngine.Data
         public DBPostEngineEntities()
             : base("name=DBPostEngineEntities")
         {
-            Configuration.ProxyCreationEnabled = false;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

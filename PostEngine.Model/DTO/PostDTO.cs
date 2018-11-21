@@ -16,5 +16,6 @@ namespace PostEngine.Model.DTO
         public bool is_public;
         public byte state;
         public List<CommentsDTO> comments { get; set; } = new List<CommentsDTO>();
+        public UserDTO user { get; set; }
     }
 }

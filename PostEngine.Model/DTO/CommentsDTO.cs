@@ -11,6 +11,7 @@ namespace PostEngine.Model.DTO
         public int id;
         public DateTime created;
         public string author_name;
-        public string email;        
+        public string email;
+        public string text;
     }
 }

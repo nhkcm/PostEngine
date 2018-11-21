@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostEngine.Logic", "PostEng
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostEngine.Model", "PostEngine.Model\PostEngine.Model.csproj", "{A06AE8C7-08EB-494A-A764-3B1CCE2B56EF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostEngine.Infrastruc", "PostEngine.Infrastruc\PostEngine.Infrastruc.csproj", "{B44F1BA3-F58A-4489-B795-28EAF557F62E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{A06AE8C7-08EB-494A-A764-3B1CCE2B56EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A06AE8C7-08EB-494A-A764-3B1CCE2B56EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A06AE8C7-08EB-494A-A764-3B1CCE2B56EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B44F1BA3-F58A-4489-B795-28EAF557F62E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B44F1BA3-F58A-4489-B795-28EAF557F62E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B44F1BA3-F58A-4489-B795-28EAF557F62E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B44F1BA3-F58A-4489-B795-28EAF557F62E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

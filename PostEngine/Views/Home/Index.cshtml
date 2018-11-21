@@ -1,0 +1,183 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+
+    @Styles.Render("~/bundles/styles")
+
+</head>
+<body ng-app="myApp">
+    <nav ng-controller="ctrl_util" class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Post Engine</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li ng-show="isLogged" class="nav-item active">
+                    <a class="nav-link" href="#">| &nbsp&nbsp Welcome {{ username }}<span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input ng-change="UpdateFilter()" ng-model="textFilter"
+                       class="form-control mr-sm-2"
+                       type="search"
+                       placeholder="Filter"
+                       aria-label="Search" />
+
+
+                <button ng-show="!isLogged" ng-click="login()" class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
+            </form>
+        </div>
+    </nav>
+
+    <div ng-controller="ctrl_blog" style="margin-top: 2%;" class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+
+            <form class="form-inline col-md-12">
+                <div class="form-group mx-md-1 mb-2 col-10">
+                    <input ng-model="newTitle" type="text" class="col-12 form-control" placeholder="Please type the Title for new Post">
+                </div>
+                <button ng-click="Crear()" type="submit" class="btn btn-primary mb-2">Create</button>
+            </form>
+
+            <div class="list-group">
+                <a href="#" ng-repeat="item in posts | filter : navBarFilter" ng-click="showPost(item)" ng-mouseleave="Desactivar(item)" ng-mouseover="Activar(item)" ng-class="item.ClassActivo" class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{ item.title }}</h5>
+                        <small>{{ item.created | date:'medium' }}</small>
+                    </div>
+                    <p class="mb-1">{{ item.text }}</p>
+                    <small>Author {{ item.user.name }} </small>
+                    <div ng-show="item.state == 1 && rol == 'editor'" ng-click="Approve(item)" class="btn btn-outline-primary btn-sm">Approve</div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Modal new post -->
+        <div class="modal fade" id="modalNewPost" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">Title | {{ newTitle }}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="exampleFormControlTextarea1">type content</label>
+                            <textarea ng-model="PostText" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                        </div>
+                        <div class="form-group form-check">
+                            <input ng-model="IsPublic" type="checkbox" class="form-check-input" id="exampleCheck1">
+                            <label class="form-check-label" for="exampleCheck1">Is Public</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" ng-click="savePost()" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="modalCompletePost" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">{{ selectedPost.title }}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {{ selectedPost.text }}
+                        <br />
+                        <small>
+                            {{ selectedPost.user.name }} | {{ selectedPost.created | date:'medium' }}
+                        </small>
+                        <br />
+                        <br />
+                        <div ng-repeat="cmmt in selectedPost.comments" class="alert alert-primary" role="alert">
+                            <div>
+                                {{ cmmt.text }}
+                            </div>
+                            <div style="font-size: 9px">
+                                {{ cmmt.author_name + " | " }}  {{ cmmt.created | date:'medium' }}
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-1"></div>
+                            <div class="col-12">
+
+                                <div class="input-group mb-3">
+                                    <input ng-model="new_comment.author_name" type="text" class="form-control" placeholder="name" aria-label="" aria-describedby="button-addon2">
+                                    <input ng-model="new_comment.email" type="email" class="form-control" placeholder="email" aria-label="" aria-describedby="button-addon2">
+                                </div>
+
+                                <div class="input-group mb-3">
+                                    <input ng-model="new_comment.text" type="text" class="form-control" placeholder="commment" aria-label="" aria-describedby="button-addon2">
+                                    <div class="input-group-append">
+                                        <button ng-click="AddComment()" class="btn btn-outline-secondary" type="button" id="button-addon2">Send</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Modal User Loging -->
+    <div ng-controller="ctrl_user" class="modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Login</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <input ng-model="username" type="text" class="form-control" placeholder="username">
+                        </div>
+                        <div class="form-group">
+                            <input ng-model="password" type="password" class="form-control" placeholder="Password">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button ng-click="login()" type="button" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/js")
+    @Scripts.Render("~/bundles/app")
+
+</body>
+</html>

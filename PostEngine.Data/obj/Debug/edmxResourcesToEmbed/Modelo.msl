@@ -4,6 +4,7 @@
     <EntitySetMapping Name="Comments">
       <EntityTypeMapping TypeName="DBPostEngineModel.Comments">
         <MappingFragment StoreEntitySet="Comments">
+          <ScalarProperty Name="text" ColumnName="text" />
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="created" ColumnName="created" />
           <ScalarProperty Name="author_name" ColumnName="author_name" />

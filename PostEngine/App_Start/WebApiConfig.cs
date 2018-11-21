@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web.Http;
 using Unity;
 using PostEngine.Logic;
+using PostEngine.Logic.Utilities;
 
 namespace PostEngine
 {
@@ -13,12 +14,8 @@ namespace PostEngine
     {
         public static void Register(HttpConfiguration config)
         {
-            // Configuración y servicios de API web
-            IUnityContainer container = new UnityContainer();
-
-            container.RegisterType<IUserManagerService, UserManagerService>();
-            container.RegisterType<IPostManagerService, PostManagerService>();
-            config.DependencyResolver = new UnityResolver(container);
+            // Configuración y servicios de API web            
+            config.DependencyResolver = new UnityResolver();
 
             var formatters = config.Formatters;
             formatters.Remove(formatters.XmlFormatter);

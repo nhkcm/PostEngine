@@ -19,6 +19,7 @@ namespace PostEngine.Data
         public string author_name { get; set; }
         public string email { get; set; }
         public int post_id { get; set; }
+        public string text { get; set; }
     
         public virtual Post Post { get; set; }
     }

@@ -1,6 +1,8 @@
-﻿using PostEngine.Data;
+﻿using AutoMapper;
+using PostEngine.Data;
 using PostEngine.Logic.Interfaces;
 using PostEngine.Logic.Utilities;
+using PostEngine.Model.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +13,7 @@ namespace PostEngine.Logic.Services
 {
     public class UserManagerService : IUserManagerService
     {
+        IMapper mapper;
         /// <summary>
         /// context for access to data
         /// </summary>
@@ -21,6 +24,7 @@ namespace PostEngine.Logic.Services
         public UserManagerService()
         {
             ctx = new DBPostEngineEntities();
+            mapper = MapperWrapped.Instance.mc.CreateMapper();
         }
         /// <summary>
         /// this method create new user
@@ -100,23 +104,24 @@ namespace PostEngine.Logic.Services
         /// <param name="name"></param>
         /// <param name="pass"></param>
         /// <returns></returns>
-        public Response<User> Login(string name, string pass)
+        public Response<UserDTO> Login(string name, string pass)
         {
             try
             {
                 var user = ctx.User.Where(w => w.name == name && w.pass == pass).FirstOrDefault();
+                var resuser = mapper.Map<UserDTO>(user);
                 if (user != null)
                 {
-                    return ResponseFactory.OK(user);
+                    return ResponseFactory.OK(resuser);
                 }
                 else
                 {
-                    return ResponseFactory.ERROR(new User(), "no login");
+                    return ResponseFactory.ERROR(new UserDTO(), "no login");
                 }
             }
             catch (Exception ex)
             {
-                return ResponseFactory.ERROR(new User(), ex.Message);
+                return ResponseFactory.ERROR(new UserDTO(), ex.Message);
             }
         }
     }
